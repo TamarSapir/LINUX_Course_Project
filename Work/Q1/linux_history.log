@@ -1,0 +1,92 @@
+  142  mkdir DOWNLOADS
+  143  mkdir CODE
+  144  mkdir DATA
+  145  mkdir BACKUPS
+  146  Work
+  147  mkdir Work
+  148  cd work
+  149  cd Work
+  150  mkdir Q1
+  151  mkdir Q2
+  152  mkdir Q3
+  153  mkdir Q4
+  154  cd .
+  155  cd ./
+  156  cd ~/LINUX_COURSE_PROJECT
+  157  cd
+  158  cd LiNUX_Course_Project
+  159  cd LINUX_Course_Project
+  160  git init
+  161  git add .
+  162  git commit -m "Initial commit"
+  163  wget -O REPOSITORY/gz.tar.downloads https://github.com/Telhai-Git/LINUX_Course_Work/archive/refs/tags/downloads.tar.gz
+  164  wget https://github.com/Telhai-Git/LINUX_COURSE_WORK/archive/refs/tags/downloads.tar.gz
+  165  tar -xvzf gz.tar.downloads -C DOWNLOADS
+  166  tar -xvzf downloads.tar.gz -C DOWNLOADS
+  167  git add .
+  168  git commit -m "Intial commit"
+  169  git status
+  170  rm downloads.tar.gz
+  171  git branch BR_Q1
+  172  git checkout BR_Q1
+  173  cp -r DOWNLOADS/*.c DOWNLOADS/*.cpp DOWNLOADS/*.py DOWNLOADS/*.sh CODE/
+  174  cp -r DOWNLOADS/* CODE/
+  175  cp DOWNLOADS/*.{txt,jpg,csv} DATA/
+  176  cp CODE/*.{txt,jpg,csv} DATA/
+  177  find ~/ -type f \( -name "*.txt" -o -name "*.jpg" -o -name "*.csv" \) 2>/dev/null
+  178  ls -l CODE/
+  179  cp CODE/*.{txt,jpg,csv} DATA/
+  180  git add CODE/*
+  181  git commit -m "Added files to CODE"
+  182  ls -l CODE/
+  183  cp CODE/*.{txt,jpg,csv} DATA/
+  184  cp DOWNLOADS/LINUX_COURSE_WORK-downloads/*.{txt,csv,jpg} DATA/ 2>/dev/null
+  185  touch 1Q/txt.output_1q
+  186  echo "Time : $(date '+%Y-%m-%d %H:%M:%S')" > 1Q/txt.output_1q
+  187  echo "USER DETAILS: $(grep "^$(whoami):" /etc/passwd)" >> 1Q/txt.output_1q
+  188  echo "REPO: $(pwd)" >> 1Q/txt.output_1q
+  189  echo "GithubUrl: https://github.com/TamarSapir" >> 1Q/txt.output_1q
+  190  echo "VERSIONID: $(grep '^VERSION_ID=' /etc/os-release | cut -d'=' -f2 | tr -d '\"')" >> 1Q/txt.output_1q
+  191  echo "-------------------------------------------" >> 1Q/txt.output_1q
+  192  if ! command -v tree &>/dev/null; then     sudo apt update && sudo apt install -y tree; fi
+  193  echo "Repository Structure:" >> 1Q/txt.output_1q
+  194  tree "$(pwd)" >> 1Q/txt.output_1q
+  195  echo "--------------------------------------------" >> 1Q/txt.output_1q
+  196  echo "List of all my .sh files under user folder recursively:" >> 1Q/txt.output_1q
+  197  find ~ -type f -name "*.sh" >> 1Q/txt.output_1q
+  198  touch Q1/q1_output.txt
+  199  echo "Time : $(date '+%Y-%m-%d %H:%M:%S')" > Q1/q1_output.txt
+  200  echo "USER DETAILS: $(grep "^$(whoami):" /etc/passwd)" >> Q1/q1_output.txt
+  201  echo "REPO: $(pwd)" >> Q1/q1_output.txt
+  202  echo "GithubUrl: https://github.com/TamarSapir" >> Q1/q1_output.txt
+  203  echo "VERSIONID: $(grep '^VERSION_ID=' /etc/os-release | cut -d'=' -f2 | tr -d '\"')" >> Q1/q1_output.txt
+  204  echo "-------------------------------------------" >> Q1/q1_output.txt
+  205  if ! command -v tree &>/dev/null; then     sudo apt update && sudo apt install -y tree; fi
+  206  echo "Repository Structure:" >> Q1/q1_output.txt
+  207  tree "$(pwd)" >> Q1/q1_output.txt
+  208  echo "--------------------------------------------" >> Q1/q1_output.txt
+  209  echo "List of all my .sh files under user folder recursively:" >> Q1/q1_output.txt
+  210  find ~ -type f -name "*.sh" >> Q1/q1_output.txt
+  211  mkdir -p Work/Q1
+  212  touch Work/Q1/q1_output.txt
+  213  echo "Time : $(date '+%Y-%m-%d %H:%M:%S')" > Work/Q1/q1_output.txt
+  214  echo "USER DETAILS: $(grep "^$(whoami):" /etc/passwd)" >> Work/Q1/q1_output.txt
+  215  echo "REPO: $(pwd)" >> Work/Q1/q1_output.txt
+  216  echo "GithubUrl: https://github.com/TamarSapir" >> Work/Q1/q1_output.txt
+  217  echo "VERSIONID: $(grep '^VERSION_ID=' /etc/os-release | cut -d'=' -f2 | tr -d '\"')" >> Work/Q1/q1_output.txt
+  218  echo "-------------------------------------------" >> Work/Q1/q1_output.txt
+  219  if ! command -v tree &>/dev/null; then     sudo apt update && sudo apt install -y tree; fi
+  220  echo "Repository Structure:" >> Work/Q1/q1_output.txt
+  221  tree "$(pwd)" >> Work/Q1/q1_output.txt
+  222  echo "--------------------------------------------" >> Work/Q1/q1_output.txt
+  223  echo "List of all my .sh files under user folder recursively:" >> Work/Q1/q1_output.txt
+  224  find ~ -type f -name "*.sh" >> Work/Q1/q1_output.txt
+  225  git branch
+  226  git add .
+  227  git commit -m "Added q1_output.txt and related changes"
+  228  git log --oneline --all | tee git_commits.log
+  229  touch Q1/linux_history.log
+  230  touch Work/ Q1/linux_history.log
+  231  touch Work/Q1/linux_history.log
+  232  history > Work/Q1/linux_history.log
+  233  history | awk '$1 >= 142' > Work/Q1/linux_history.log
