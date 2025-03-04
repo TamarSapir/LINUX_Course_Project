@@ -1,0 +1,40 @@
+    1  git checkout master
+    2  git branch BR_Q2
+    3  git checkout  BR_Q2
+    4  git branch
+    5  cp plant.py Work/Q2
+    6  cp DOWNLOADS/plant.py Work/Q2/
+    7  find ~ -type f -name "plant.py" 2>/dev/null
+    8  cp /root/LINUX_Course_Project/DOWNLOADS/LINUX_COURSE_WORK-downloads/plant.py Work/Q2/
+    9  python3 --version
+   10  python3 Work/Q2/plant.py
+   11  mkdir -p Work/Q2/Diagrams_1
+   12  mv ~/*.png ~/*.jpg ~/*.svg Work/Q2/Diagrams_1/
+   13  find ~ -type f -name "*.png"
+   14  mv /root/LINUX_Course_Project/Rose_*.png Work/Q2/Diagrams_1/
+   15  tar -czvf BACKUPS/Diagrams_$(date +"%Y-%m-%d_%H-%M-%S").tar.gz Work/Q2/Diagrams_1/
+   16  ls -l BACKUPS/
+   17  git branch
+   18  git add .
+   19  git commit -m "Added diagrams backup and moved files in 2Q_BR"
+   20  git checkout master
+   21  git merge BR_Q2
+   22  git push origin master
+   23  git push origin 2Q_BR
+   24  git push origin master
+   25  git push origin BR_Q2
+   26  touch requirements.txt
+   27  python3 < plant_plots.txt
+   28  python3 requirements.txt
+   29  python3 requirements.txt --plant "Sunflower" --height 100 110 120 130 140 --leaf_count 50 55 60 65 70 --dry_weight 5.0 5.5 6.0 6.5 7.0
+   30  pip3 freeze | xargs pip3 uninstall -y
+   31  pip3 install -r requirements.txt
+   32  python3 plant_plots.py --plant "Sunflower" --height 100 110 120 130 140 --leaf_count 50 55 60 65 70 --dry_weight 5.0 5.5 6.0 6.5 7.0
+   33  python3 requirements.txt --plant "Sunflower" --height 100 110 120 130 140 --leaf_count 50 55 60 65 70 --dry_weight 5.0 5.5 6.0 6.5 7.0
+   34  mkdir -p Work/Q2/Diagrams_2
+   35  mv *.png Work/Q2/Diagrams_2/
+   36  tar -czvf "Backups/Diagrams_2_$(date "+%Y-%m-%d_%H-%M-%S").tar.gz" Work/Q2/Diagrams_2/*.png
+   37  mkdir -p Backups && tar -czvf "Backups/Diagrams_2_$(date "+%Y-%m-%d_%H-%M-%S").tar.gz" Work/Q2/Diagrams_2/*.png
+   38  rm -rf Backups
+   39  tar -czvf "BACKUPS/Diagrams_2_$(date "+%Y-%m-%d_%H-%M-%S").tar.gz" Work/Q2/Diagrams_2/*.png
+   40  history > linux_history2.log
