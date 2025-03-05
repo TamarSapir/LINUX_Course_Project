@@ -1,0 +1,24 @@
+   51  git pull origin master
+   52  git fetch --all
+   53  git status
+   54  git branch -a
+   55  git checkout -b 3Q_BR
+   56  git branch -m 3Q_BR BR_Q3
+   57  git push origin --delete 3Q_BR
+   58  mkdir -p BASHSCRIPT
+   59  touch BASHSCRIPT/menu.sh
+   60  chmod +x BASHSCRIPT/menu.sh
+   61  bash BASHSCRIPT/menu.sh
+   62  git checkout BR_CSV
+   63  rm menu.sh firstfile decondFile
+   64  rm firstFile secondFile
+   65  rm plants1.csv
+   66  rm new_file
+   67  bash BASHSCRIPT/menu.sh
+   68  rm emptyCSV.csv
+   69  bash BASHSCRIPT/menu.sh
+   70  rm empty.csv
+   71  rm emptycsv.csv
+   72  rm emptcsv.csv
+   73  history > linux_history3.log
+   74  history | tail -n +51 > linux_history3.log
