@@ -1,0 +1,124 @@
+    1  git checkout BR_Q4
+    2  cd Work/Q4
+    3  touch ex4.sh
+    4  chmod +x ex4.sh
+    5  ./ex4.sh my_plants.csv
+    6  ./ex4.sh
+    7  ./ex4.sh plants.py
+    8  ./ex4.sh plants.csv
+    9  #!/bin/bash
+   10  LOG_FILE="process_log.log"
+   11  ERROR_LOG_FILE="process_error.log"
+   12  VENV_DIR="../venv"
+   13  PYTHON_SCRIPT=$(find ~/LINUX_Course_Project -type f -name "requirements.txt" | head -n 1)
+   14  if [[ -z "$PYTHON_SCRIPT" ]]; then     echo "Error: Could not find requirements.txt anywhere in the project!" | tee -a "$ERROR_LOG_FILE";     exit 1; fi
+   15  echo "Using requirements file: $PYTHON_SCRIPT" | tee -a "$LOG_FILE"
+   16  echo "======== Starting CSV Processing ========" | tee -a "$LOG_FILE"
+   17  #get the csv
+   18  CSV_FILE=$1
+   19  if [[ -z "$CSV_FILE" ]]; then     CSV_FILE=$(find ~/LINUX_Course_Project -type f -name "*.csv" | head -n 1);     [[ -z "$CSV_FILE" ]] && { echo "No CSV file found!" | tee -a "$ERROR_LOG_FILE"; exit 1; }; fi
+   20  echo "Using CSV file: $CSV_FILE" | tee -a "$LOG_FILE"
+   21  # making a venv 
+   22  if [[ ! -d "$VENV_DIR" ]]; then     echo "Creating virtual environment at $VENV_DIR" | tee -a "$LOG_FILE";     python3 -m venv "$VENV_DIR"; fi
+   23  # start venv
+   24  source "$VENV_DIR/bin/activate"
+   25  if [[ $? -ne 0 ]]; then     echo "Failed to activate virtual environment!" | tee -a "$ERROR_LOG_FILE";     exit 1; fi
+   26  echo "Virtual environment activated." | tee -a "$LOG_FILE"
+   27  # install packeges we need
+   28  pip install -r ../requirements.txt 2>>"$ERROR_LOG_FILE"
+   29  echo "Dependencies installed." | tee -a "$LOG_FILE"
+   30  # run code for every line in csv
+   31  mkdir -p Diagrams
+   32  while IFS=',' read -r plant heights leaf_counts dry_weights; do     [[ "$plant" == "Plant" ]] && continue  ;      echo "Processing plant: $plant" | tee -a "$LOG_FILE";     mkdir -p "Diagrams/$plant";      python3 "$PYTHON_SCRIPT" --plant "$plant" --height $heights --leaf_count $leaf_counts --dry_weight $dry_weights >> "$LOG_FILE" 2>> "$ERROR_LOG_FILE";      if [[ $? -eq 0 ]]; then         mv "${plant}_scatter.png" "${plant}_histogram.png" "${plant}_line_plot.png" "Diagrams/$plant/" 2>/dev/null;         echo "Diagrams for $plant saved in Diagrams/$plant/" | tee -a "$LOG_FILE";     else         echo "Error processing $plant. Check $ERROR_LOG_FILE for details." | tee -a "$ERROR_LOG_FILE";     fi;  done < "$CSV_FILE"
+   33  echo "======== Processing Completed ========" | tee -a "$LOG_FILE"
+   34  find ~/LINUX_Course_Project -type f -name "plants.csv"
+   35  ./ex4.sh
+   36  cat process_error.log
+   37  find ~/LINUX_Course_Project -type f -name "requirements.txt"
+   38  rm -f process_error.log process_log.log
+   39  ./ex4.sh
+   40  find ~/LINUX_Course_Project -type f -name "requirements.txt"
+   41  rm -rf ../venv
+   42  python3 -m venv ../venv
+   43  (venv) root@Tamar-sapir:~/LINUX_Course_Project/Work/Q4# rm -rf ../venv
+   44  (venv) root@Tamar-sapir:~/LINUX_Course_Project/Work/Q4# python3 -m venv ../venv
+   45  bash: /root/LINUX_Course_Project/Work/venv/bin/python3: No such file or directory
+   46  (venv) root@Tamar-sapir:~/LINUX_Course_Project/Work/Q4 
+   47  python3 --version
+   48  which python3
+   49  pip install --upgrade pip
+   50  pip list
+   51  pip install matplotlib
+   52  ./ex4.sh
+   53  rm -f process_error.log process_log.log
+   54  deactivate
+   55  rm -rf ../venv
+   56  python3 -m venv ../venv
+   57  source ../venv/bin/activate
+   58  pip install --upgrade pip
+   59  pip install matplotlib
+   60  ./ex4.sh
+   61  rm -f process_error.log process_log.log
+   62  ./ex4.sh
+   63  rm -f process_error.log process_log.log
+   64  ./ex4.sh
+   65  TIMESTAMP=$(date "+%Y-%m-%d_%H-%M-%S")
+   66  tar -czvf BACKUPS/Plants_Backup_$TIMESTAMP.tar.gz Diagrams/*
+   67  git checkout master -- BACKUPS
+   68  git checkout master
+   69  ls -l
+   70  git checkout BR_Q4
+   71  git checkout master -- BACKUPS
+   72  git checkout BR_Q4
+   73  TIMESTAMP=$(date "+%Y-%m-%d_%H-%M-%S")
+   74  tar -czvf BACKUPS/Plants_Backup_$TIMESTAMP.tar.gz Diagrams/*
+   75  git checkout BR_Q4
+   76  ls -l
+   77  (venv) root@Tamar-sapir:~/LINUX_Course_Project/Work/Q4# TIMESTAMP=$(date "+%Y-%m-%d_%H-%M-%S")
+   78  tar -czvf BACKUPS/Plants_Backup_$TIMESTAMP.tar.gz Diagrams/*
+   79  tar (child): BACKUPS/Plants_Backup_2025-03-06_22-04-16.tar.gz: Cannot open: No such file or directory
+   80  tar (child): Error is not recoverable: exiting now
+   81  Diagrams/Daffodil/
+   82  Diagrams/Daffodil/Daffodil_scatter.png
+   83  tar: BACKUPS/Plants_Backup_2025-03-06_22-04-16.tar.gz: Cannot write: Broken pipe
+   84  tar: Child returned status 2
+   85  tar: Error is not recoverable: exiting now
+   86  (venv) root@Tamar-sapir:~/LINUX_Course_Project/Work/Q4# 
+   87  cd .
+   88  cd ..
+   89  TIMESTAMP=$(date "+%Y-%m-%d_%H-%M-%S")
+   90  tar -czvf BACKUPS/Plants_Backup_$TIMESTAMP.tar.gz Diagrams/*
+   91  TIMESTAMP=$(date "+%Y-%m-%d_%H-%M-%S")
+   92  tar -czvf BACKUPS/Plants_Backup_$TIMESTAMP.tar.gz /Work/Q4 Diagrams/*
+   93  rm /root/LINUX_Course_Project/BACKUPS/Plants_Backup_2025-03-06_22-07-34.tar.gz
+   94  git add .
+   95  git commit -m "Added backup of plant diagrams and finalized script"
+   96  git checkout BR_Q4
+   97  cat .gitignore
+   98  git add -f venv/
+   99  git commit -m "Force add virtual environment to Git"
+  100  git push origin BR_Q4
+  101  ./ex4.sh --path /root/LINUX_Course_Project/DOWNLOADS/LINUX_COURSE_WORK-downloads/plants.csv          --output-dir /root/LINUX_Course_Project/Results          --log-level debug          --backup yes
+  102  ./Work/Q4/ex4.sh --path /root/LINUX_Course_Project/DOWNLOADS/LINUX_COURSE_WORK-downloads/plants.csv                   --output-dir /root/LINUX_Course_Project/Work/Q4/Diagrams                   --log-level debug                   --backup yes
+  103  rm process_error.log
+  104  rm process_log.log
+  105  cd Q4
+  106  ./ex4.sh --path /root/LINUX_Course_Project/DOWNLOADS/LINUX_COURSE_WORK-downloads/plants.csv          --output-dir /root/LINUX_Course_Project/Work/Q4/Diagrams          --log-level debug          --backup yes
+  107  cd Work
+  108  cd Q4
+  109  ./ex4.sh --path /root/LINUX_Course_Project/DOWNLOADS/LINUX_COURSE_WORK-downloads/plants.csv          --output-dir /root/LINUX_Course_Project/Work/Q4/Diagrams          --log-level debug          --backup yes
+  110  rm process_error.log
+  111  rm process_log.log
+  112  ./ex4.sh --path /root/LINUX_Course_Project/DOWNLOADS/LINUX_COURSE_WORK-downloads/plants.csv          --output-dir /root/LINUX_Course_Project/Work/Q4/Diagrams          --log-level debug          --backup yes
+  113  rm process_error.log
+  114  rm process_log.log
+  115  ./ex4.sh --path /root/LINUX_Course_Project/DOWNLOADS/LINUX_COURSE_WORK-downloads/plants.csv          --output-dir /root/LINUX_Course_Project/Work/Q4/Diagrams          --log-level debug          --backup yes
+  116  ./ex4.sh --path /root/LINUX_Course_Project/DOWNLOADS/LINUX_COURSE_WORK-downloads/plants.csv          --output-dir /root/LINUX_Course_Project/Work/Q4/Diagrams          --log-level debug          --backup yes          --temp-dir /tmp/workdir          --reuse-venv          --silent
+  117  rm process_log.log
+  118  rm -rf Diagrams/*
+  119  rm BACKUPS
+  120  rm -rf /root/LINUX_Course_Project/Work/Q4/BACKUPS
+  121  echo "Deleted BACKUPS directory from Q4."
+  122  ./ex4.sh --path /root/LINUX_Course_Project/DOWNLOADS/LINUX_COURSE_WORK-downloads/plants.csv          --output-dir /root/LINUX_Course_Project/Work/Q4/Diagrams          --log-level debug          --backup yes          --temp-dir /tmp/workdir          --reuse-venv          --silent
+  123  ./ex4.sh --path /root/LINUX_Course_Project/DOWNLOADS/LINUX_COURSE_WORK-downloads/plants.csv          --output-dir /root/LINUX_Course_Project/Work/Q4/Diagrams          --log-level debug          --backup yes          --temp-dir /tmp/workdir          --reuse-venv          --silent
+  124  history > linux_history4.log
