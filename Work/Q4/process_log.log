@@ -1,0 +1,58 @@
+Using requirements file: /root/LINUX_Course_Project/requirements.txt
+Using requirements file: /root/LINUX_Course_Project/requirements.txt
+Using requirements file: /root/LINUX_Course_Project/requirements.txt
+======== Starting CSV Processing ========
+Using CSV file: /root/LINUX_Course_Project/DOWNLOADS/LINUX_COURSE_WORK-downloads/plants.csv
+Virtual environment activated.
+Processing plant: Rose
+Generated plots for Rose:
+Scatter plot saved as Rose_scatter.png
+Histogram saved as Rose_histogram.png
+Line plot saved as Rose_line_plot.png
+Diagrams for Rose saved in Diagrams/Rose/
+Processing plant: Tulip
+Generated plots for Tulip:
+Scatter plot saved as Tulip_scatter.png
+Histogram saved as Tulip_histogram.png
+Line plot saved as Tulip_line_plot.png
+Diagrams for Tulip saved in Diagrams/Tulip/
+Processing plant: Sunflower
+Generated plots for Sunflower:
+Scatter plot saved as Sunflower_scatter.png
+Histogram saved as Sunflower_histogram.png
+Line plot saved as Sunflower_line_plot.png
+Diagrams for Sunflower saved in Diagrams/Sunflower/
+Processing plant: Daffodil
+Generated plots for Daffodil:
+Scatter plot saved as Daffodil_scatter.png
+Histogram saved as Daffodil_histogram.png
+Line plot saved as Daffodil_line_plot.png
+Diagrams for Daffodil saved in Diagrams/Daffodil/
+Processing plant: Lily
+Generated plots for Lily:
+Scatter plot saved as Lily_scatter.png
+Histogram saved as Lily_histogram.png
+Line plot saved as Lily_line_plot.png
+Diagrams for Lily saved in Diagrams/Lily/
+Diagrams/
+Diagrams/Sunflower/
+Diagrams/Sunflower/Sunflower_histogram.png
+Diagrams/Sunflower/Sunflower_line_plot.png
+Diagrams/Sunflower/Sunflower_scatter.png
+Diagrams/Lily/
+Diagrams/Lily/Lily_histogram.png
+Diagrams/Lily/Lily_line_plot.png
+Diagrams/Lily/Lily_scatter.png
+Diagrams/Rose/
+Diagrams/Rose/Rose_scatter.png
+Diagrams/Rose/Rose_histogram.png
+Diagrams/Rose/Rose_line_plot.png
+Diagrams/Tulip/
+Diagrams/Tulip/Tulip_line_plot.png
+Diagrams/Tulip/Tulip_histogram.png
+Diagrams/Tulip/Tulip_scatter.png
+Diagrams/Daffodil/
+Diagrams/Daffodil/Daffodil_scatter.png
+Diagrams/Daffodil/Daffodil_line_plot.png
+Diagrams/Daffodil/Daffodil_histogram.png
+======== Processing Completed ========

@@ -1,0 +1,16 @@
+We think that we need to add the following parameters to BASH according to the exercise data:
+    1. Getting a customized path to the CSV file instead of automatically searching the project.
+    2. Option to choose a custom path to save the Diagrams folder.
+    3. Setting the level of logs to be printed (info = only success messages, error = only errors, debug = all details).
+    4. Option to create an automatic backup of the Diagrams folder after each run.
+According to the instructions, we will implement these parameters according to the flag method so that there is a key flag followed by value
+
+we will run the project like this:
+./ex4.sh --path /root/LINUX_Course_Project/DOWNLOADS/LINUX_COURSE_WORK-downloads/plants.csv \
+         --output-dir /root/LINUX_Course_Project/Work/Q4/Diagrams \
+         --log-level debug \
+         --backup yes \
+         --temp-dir /tmp/workdir \
+         --reuse-venv \
+         --silent
+
