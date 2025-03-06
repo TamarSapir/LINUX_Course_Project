@@ -1,0 +1,35 @@
+Using requirements file: /root/LINUX_Course_Project/requirements.txt
+======== Starting CSV Processing ========
+Using CSV file: /root/LINUX_Course_Project/DOWNLOADS/LINUX_COURSE_WORK-downloads/plants.csv
+Virtual environment activated.
+Processing plant: Rose
+Generated plots for Rose:
+Scatter plot saved as Rose_scatter.png
+Histogram saved as Rose_histogram.png
+Line plot saved as Rose_line_plot.png
+Diagrams for Rose saved in Diagrams/Rose/
+Processing plant: Tulip
+Generated plots for Tulip:
+Scatter plot saved as Tulip_scatter.png
+Histogram saved as Tulip_histogram.png
+Line plot saved as Tulip_line_plot.png
+Diagrams for Tulip saved in Diagrams/Tulip/
+Processing plant: Sunflower
+Generated plots for Sunflower:
+Scatter plot saved as Sunflower_scatter.png
+Histogram saved as Sunflower_histogram.png
+Line plot saved as Sunflower_line_plot.png
+Diagrams for Sunflower saved in Diagrams/Sunflower/
+Processing plant: Daffodil
+Generated plots for Daffodil:
+Scatter plot saved as Daffodil_scatter.png
+Histogram saved as Daffodil_histogram.png
+Line plot saved as Daffodil_line_plot.png
+Diagrams for Daffodil saved in Diagrams/Daffodil/
+Processing plant: Lily
+Generated plots for Lily:
+Scatter plot saved as Lily_scatter.png
+Histogram saved as Lily_histogram.png
+Line plot saved as Lily_line_plot.png
+Diagrams for Lily saved in Diagrams/Lily/
+======== Processing Completed ========
