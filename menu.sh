@@ -1,6 +1,7 @@
 #!/bin/bash
 
 selected_file=""
+target_dir="$(pwd)/DOWNLOADS/LINUX_COURSE_WORK-downloads"
 
 while true; do
     echo "Select an action:"
@@ -17,23 +18,29 @@ while true; do
     read -p "Enter your choice: " choice
 
     create_csv() {
+        if [[ ! -d "$target_dir" ]]; then
+            echo "Error: Target directory '$target_dir' does not exist."
+            return
+        fi
+
         read -p "Enter new CSV filename: " filename
-        echo "Plant,Hieght,Leaf Count,Dry Weight"> "$filename" #empty csv file
-        selected_file="$filename"
-        echo "Created file: $selected_file and set as current file."
+        full_path="$target_dir/$filename"
+
+        echo "Plant,Height,Leaf Count,Dry Weight" > "$full_path"
+        echo "Created file: $full_path"
     }
 
     choose_csv() {
         while true; do
-            read -p "Enter existing CSV filename (searching in project): " filename
-            filepath=$(find . -type f -name "$filename" 2>/dev/null)
+            read -p "Enter existing CSV filename: " filename
+            full_path="$target_dir/$filename"
 
-            if [[ -n "$filepath" ]]; then
-                selected_file="$filepath"
+            if [[ -f "$full_path" ]]; then
+                selected_file="$full_path"
                 echo "File selected: $selected_file"
                 break
             else
-                echo "Error: File '$filename' not found in the project. Please try again."
+                echo "Error: File '$full_path' not found. Please enter a valid filename."
             fi
         done
     }
@@ -63,31 +70,19 @@ while true; do
         echo "Added row to $selected_file"
     }
 
-run_python() {
-    validate_file_selected || return
+    run_python() {
+        validate_file_selected || return
 
-    while true; do
-        read -p "Select a plant for analysis: " plant
-        plant_data=$(grep "^$plant," "$selected_file")
-
-        if [[ -n "$plant_data" ]]; then
-            # pull out the data from the file
-            heights=$(echo "$plant_data" | cut -d',' -f2 | tr -d '"')
-            leaf_counts=$(echo "$plant_data" | cut -d',' -f3 | tr -d '"')
-            dry_weights=$(echo "$plant_data" | cut -d',' -f4 | tr -d '"')
-
-            # save in requirements.txt
-            echo "--plant $plant --height $heights --leaf_count $leaf_counts --dry_weight $dry_weights" > requirements.txt
-
-            echo "Parameters saved to requirements.txt:"
-            cat requirements.txt
-            break
-        else
-            echo "Error: Plant '$plant' not found in $selected_file. Please try again."
-        fi
-    done
-}
-
+        while true; do
+            read -p "Select a plant for analysis: " plant
+            if grep -q "^$plant," "$selected_file"; then
+                python3 "$target_dir/plant.py" --plant "$plant"
+                break
+            else
+                echo "Error: Plant '$plant' not found in $selected_file. Please try again."
+            fi
+        done
+    }
 
     update_plant() {
         validate_file_selected || return
