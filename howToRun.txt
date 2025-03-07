@@ -1,0 +1,12 @@
+1. 
+docker build -t python_image -f Dockerfile .
+docker build -t java_image -f Dockerfile.java .
+
+
+2.
+#!/bin/bash
+docker run --rm -e STUDENT_NAME_1="Karin Cohen" -e STUDENT_ID_1="209062595" -e STUDENT_NAME_2="Tamar Sapir" -e STUDENT_ID_2="322363367" -v /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5:/app/images -v /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/watermark_images:/app/output_java java_image
+docker rm $(docker ps -aq) -f
+docker rmi $(docker images -q) -f
+
+echo "Cleanup complete!"

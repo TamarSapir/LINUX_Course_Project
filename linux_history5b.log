@@ -1,0 +1,102 @@
+    1  history 
+    2  cd DOWNLOADS/
+    3  cd LINUX_COURSE_WORK-downloads/
+    4  ls
+    5  history 
+    6  git status
+    7  cd ..
+    8  git status
+    9  git checkout -b BR_Q5
+   10  git checkout -b BR-Q5
+   11  git status
+   12  docker run -it --name q5_python_runner ubuntu:latest /bin/bash
+   13  docker run -it --name q5_python ubuntu:latest /bin/bash
+   14  docker ps
+   15  sudo service docker start
+   16  sudo systemctl start docker
+   17  docker run -it --name q5_python_runner ubuntu:latest /bin/bash
+   18  docker run -it --name q5_python ubuntu:latest /bin/bash
+   19  docker ps -a
+   20  docker start -ai q5_python
+   21  docker cp /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/DOWNLOADS/LINUX_COURSE_WORK-downloads/plant.py q5_python:/plant.py
+   22  docker start -ai q5_python
+   23  history > linux_history5.log
+   24  git status
+   25  git add .
+   26  git commit -m "Fixed the errors after merge"
+   27  git push --force origin master
+   28  git status
+   29  git push --force origin BR-Q5
+   30  tree
+   31  chmod +x menu.sh
+   32  ./menu.sh
+   33  cd DOWNLOADS/
+   34  ./menu.sh
+   35  chmod +x menu.sh
+   36  ./menu.sh
+   37  chmod +x menu.sh
+   38  cd LINUX_COURSE_WORK-downloads/
+   39  ./menu.sh
+   40  chmod +x menu.sh
+   41  chmod +x C:\Users\User\linuxPrj\LINUX_Course_Project\menu.sh
+   42  ./C:\Users\User\linuxPrj\LINUX_Course_Project\menu.sh
+   43  cd ..
+   44  ls
+   45  ./menu.sh
+   46  ls
+   47  cd DOWNLOADS/
+   48  ls
+   49  cd LINUX_COURSE_WORK-downloads/
+   50  ls
+   51  chmod +x menu.sh
+   52  cd ..
+   53  chmod +x menu.sh
+   54  ./menu.sh
+   55  chmod +x menu.sh
+   56  ./menu.sh
+   57  git status
+   58  git branch
+   59  git add .
+   60  git commit -m "Fixed: fixing menu.sh and requirements.txt"
+   61  docker build -t Q5b_img .
+   62  docker build -t q5b_img .
+   63  docker run -it --name python_container q5b_img
+   64  docker run -it --name python_container q5b_img python plant.py --plant Rose --height 50 55 60 65 70 --leaf_count 35 40 45 50 55 --dry_weight 2.0 2.0 2.1 2.1 3.0
+   65  docker rm python_container
+   66  docker run -it --name python_container q5b_img python plant.py --plant Rose --height 50 55 60 65 70 --leaf_count 35 40 45 50 55 --dry_weight 2.0 2.0 2.1 2.1 3.0
+   67  docker rm python_container
+   68  docker run -it --name python_container q5b_img python plant.py --plant Rose --height 50 55 60 65 70 --leaf_count 35 40 45 50 55 --dry_weight 2.0 2.0 2.1 2.1 3.0
+   69  docker cp python_container:/Rose_scatter.png /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/
+   70  docker cp python_container:/Rose_histogram.png /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/
+   71  docker cp python_container:/Rose_line_plot.png /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/
+   72  docker start -ai python_container
+   73  find / -name "Rose_scatter.png"
+   74  find / -name "Rose_histogram.png"
+   75  find / -name "Rose_line_plot.png"
+   76  find /app -name "Rose_scatter.png"
+   77  find /app -name "Rose_histogram.png"
+   78  find /app -name "Rose_line_plot.png"
+   79  docker start -ai python_container
+   80  find / -name "Rose_scatter.png"
+   81  find / -name "Rose_histogram.png"
+   82  find / -name "Rose_line_plot.png"
+   83  find /app -name "Rose_scatter.png"
+   84  find /app -name "Rose_histogram.png"
+   85  find /app -name "Rose_line_plot.png"
+   86  docker start -ai python_container
+   87  docker start -ai python_container /bin/bash
+   88  docker cp python_container:/Rose_scatter.png /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/
+   89  karin_cohen@DESKTOP-90T7VJ3:/mnt/c/Users/User/linuxPrj/LINUX_Course_Project$ docker cp python_container:/Rose_scatter.png /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/
+   90  Error response from daemon: Could not find the file /Rose_scatter.png in container python_containerdocker exec -it python_container ls -lah /
+   91  docker exec -it python_container ls -lah /
+   92  docker ps
+   93  docker run -it python_container /bin/bash
+   94  docker ps -a
+   95  docker start -ai python_container
+   96  docker run --rm -it q5b_img /bin/bash
+   97  docker cp python_container:/app/Rose_scatter.png /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/
+   98  docker cp python_container:/app/Work/Q2/Diagrams_1/Rose_scatter.png /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/
+   99  docker cp python_container:/app/Work/Q4/Diagrams/Rose/Rose_scatter.png /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/
+  100  docker cp python_container:/app/Rose_histogram.png /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/
+  101  docker cp python_container:/app/Rose_line_plot.png /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/
+  102  history > linux_history5b.log
