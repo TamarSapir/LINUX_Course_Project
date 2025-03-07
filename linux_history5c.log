@@ -1,0 +1,22 @@
+ 1855  git status
+ 1856  touch WatermarkProcessor.java
+ 1857  docker build -t java_image -f Dockerfile.java .
+ 1858  docker images
+ 1859  karin_cohen@DESKTOP-90T7VJ3:/mnt/c/Users/User/linuxPrj/LINUX_Course_Project$ docker images
+ 1860  REPOSITORY   TAG       IMAGE ID       CREATED          SIZE
+ 1861  java_image   latest    5548ec55ddd4   23 seconds ago   654MB
+ 1862  q5b_img      latest    7c1fada0fe2a   44 minutes ago   1.49GB
+ 1863  python       3         36d17f72f4f3   4 weeks ago      1.02GB
+ 1864  ubuntu       latest    a04dc4851cbc   5 weeks ago      78.1MB
+ 1865  openjdk      11        47a932d998b7   2 years ago      654MB
+ 1866  docker build -t java_image -f Dockerfile.java .
+ 1867  docker run --rm -e STUDENT_NAME_1="Karin Cohen" -e STUDENT_ID_1="209062595" -e STUDENT_NAME_2="Tamar Sapir" -e STUDENT_ID_2="322363367" -v /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/images:/app/images -v /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/images:/app/output_java java_image
+ 1868  docker build -t java_image -f Dockerfile.java .
+ 1869  docker run --rm -e STUDENT_NAME_1="Karin Cohen" -e STUDENT_ID_1="209062595" -e STUDENT_NAME_2="Tamar Sapir" -e STUDENT_ID_2="322363367" -v /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5:/app/images -v /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/watermark_images:/app/output_java java_image
+ 1870  docker build -t java_image -f Dockerfile.java .
+ 1871  docker run --rm -e STUDENT_NAME_1="Karin Cohen" -e STUDENT_ID_1="209062595" -e STUDENT_NAME_2="Tamar Sapir" -e STUDENT_ID_2="322363367" -v /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5:/app/images -v /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/watermark_images:/app/output_java java_image
+ 1872  docker build -t java_image -f Dockerfile.java .
+ 1873  docker run --rm -e STUDENT_NAME_1="Karin Cohen" -e STUDENT_ID_1="209062595" -e STUDENT_NAME_2="Tamar Sapir" -e STUDENT_ID_2="322363367" -v /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5:/app/images -v /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/watermark_images:/app/output_java java_image
+ 1874  docker build -t java_image -f Dockerfile.java .
+ 1875  docker rmi $(docker images -q) -f 2>/dev/null
+ 1876  history > linux_history5c.log

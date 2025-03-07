@@ -1,0 +1,15 @@
+1 Build the containers
+    The Python container should be built using Dockerfile
+    The Java container should be built using Dockerfile.java
+
+2 Run the Python container
+    The Python container should be executed to generate images and save them in a shared directory such as Work/Q5
+
+3 Wait for the images to be created
+    To ensure that images are generated before Java processes them,
+    add a short delay using sleep 3 or check if the directory contains files using ls -1
+
+4 Run the Java container
+    After the images are created, run the Java container with environment variables for student names and IDs
+    Ensure the watermarking process runs correctly and saves the processed images in Work/Q5/watermark_images
+
