@@ -1,0 +1,76 @@
+ 1840  cd Work
+ 1841  mkdir Q5
+ 1842  cd Q5
+ 1843  git checkout -b BR_Q5
+ 1844  git status
+ 1845  docker run -it --name q5_python_runner ubuntu:latest /bin/bash
+ 1846  sudo apt update && sudo apt install -y docker.io
+ 1847  sudo systemctl enable --now docker
+ 1848  docker --version
+ 1849  sudo systemctl status docker
+ 1850  docker run -it --name q5_python_runner ubuntu:latest /bin/bash
+ 1851  sudo usermod -aG docker $USER
+ 1852  docker run -it --name q5_python_runner ubuntu:latest /bin/bash
+ 1853  find /mnt/c/Users/User/linuxPrj/ -name "plant.py"
+ 1854  docker cp /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q2/plant.py q5_python_runner:/plant.py
+ 1855  docker start -ai q5_python_runner
+ 1856  docker cp q5_python_runner:/combined.png /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/
+ 1857  docker start -ai q5_python_runner
+ 1858  docker cp q5_python_runner:/reversed_combined.png /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/
+ 1859  docker start -ai q5_python_runner
+ 1860  docker cp q5_python_runner:/docker_history.log /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/
+ 1861  git add .
+ 1862  git commit -m "Added Docker-generated images and history log"
+ 1863  git push origin BR_Q5
+ 1864  git config --global user.name "KarinCohen201"
+ 1865  git config --global user.email "karinc20198@gmail.com"
+ 1866  git push origin BR_Q5
+ 1867  git remote -v
+ 1868  git remote set-url origin https://github.com/KarinCohen201/LINUX_Course_Project.git
+ 1869  git remote -v
+ 1870  git push origin BR_Q5
+ 1871  git remote -v
+ 1872  git push origin BR_Q5
+ 1873  ls
+ 1874  git status
+ 1875  git push origin BR_Q5
+ 1876  git config --global credential.helper store
+ 1877  ssh-keygen -t rsa -b 4096 -C "KarinCohen"
+ 1878  cat ~/.ssh/id_rsa.pub
+ 1879  git remote -v
+ 1880  git remote set-url origin git@github.com:KarinCohen201/LINUX_Course_Project.git
+ 1881  git remote -v
+ 1882  git push origin BR_Q5
+ 1883  git remote set-url origin git@github.com:TamarSapir/LINUX_Course_Project.git
+ 1884  git remote -v
+ 1885  git push origin BR_Q5
+ 1886  history > ~/history.log
+ 1887  history >> ~/history.log
+ 1888  history >> /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/history.log
+ 1889  rm /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/history.log
+ 1890  history >> /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/history.log
+ 1891  history | sed -n '1839,1885p' > ~/linux_history5.log
+ 1892  history | sed -n '1839,1885p' >>/linux_history5.log
+ 1893  cd ~
+ 1894  history | sed -n '1839,1885p' > /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/linux_history5.log
+ 1895  history
+ 1896  history | tail -n +1839 > linux_history5.log
+ 1897  history | tail -n +1839 > /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/linux_history5.log
+ 1898  cd /mnt/c/Users/User/linuxPrj/LINUX_Course_Project
+ 1899  history | tail -n +1839 > /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/linux_history5.log
+ 1900  history > linux_history5.log
+ 1901  history | tail -n +1839 > linux_history5.log
+ 1902  history > linux_history5.log
+ 1903  history | tail -n +937 > linux_history5.log
+ 1904  docker start -ai q5_python_runner
+ 1905  docker cp q5_python_runner:/reversed_combined.png /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/
+ 1906  docker start -ai q5_python_runner
+ 1907  docker cp q5_python_runner:/reversed_combined.png /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/
+ 1908  docker start -ai q5_python_runner
+ 1909  docker cp q5_python_runner:/reversed_combined.png /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/
+ 1910  docker start -ai q5_python_runner
+ 1911  docker cp q5_python_runner:/reversed_combined.png /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/
+ 1912  history > linux_history5.log
+ 1913  history | tail -n +937 > linux_history5.log
+ 1914  history > linux_history5.log
+ 1915  history | tail -n +925 > linux_history5.log

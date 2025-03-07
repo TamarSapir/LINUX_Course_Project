@@ -1,0 +1,17 @@
+    1  apt update && apt install -y python3 python3-pip nano imagemagick
+    2  ls *.png
+    3  pwd
+    4  python3 /plant.py
+    5  docker cp /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q2/plant.py q5_python_runner:/plant.py
+    6  find /mnt/c/Users/User/linuxPrj/ -name "plant.py"
+    7  exit
+    8  ls -l /plant.py
+    9  python3 /plant.py
+   10  pip install matplotlib
+   11  apt update && apt install -y python3-matplotlib
+   12  python3 -c 'import matplotlib.pyplot as plt; print("Matplotlib installed successfully!")'
+   13  python3 /plant.py
+   14  ls *.png
+   15  convert +append *.png combined.png
+   16  ls -l combined.png
+   17  history > docker_history.log
