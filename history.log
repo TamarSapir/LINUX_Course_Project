@@ -1,0 +1,1000 @@
+  901  			// forces the browser to treat the default option as
+  902  			// selected when in an optgroup.
+  903  			if ( elem.parentNode ) {
+  904  				// eslint-disable-next-line no-unused-expressions
+  905  				elem.parentNode.selectedIndex;
+  906  			}
+  907  			return elem.selected === true;
+  908  		},
+  909  		// Contents
+  910  		empty: function( elem ) {
+  911  			// https://www.w3.org/TR/selectors/#empty-pseudo
+  912  			// :empty is negated by element (1) or content nodes (text: 3; cdata: 4; entity ref: 5),
+  913  			//   but not by others (comment: 8; processing instruction: 7; etc.)
+  914  			// nodeType < 6 works because attributes (2) do not appear as children
+  915  			for ( elem = elem.firstChild; elem; elem = elem.nextSibling ) {
+  916  				if ( elem.nodeType < 6 ) {
+  917  					return false;
+  918  				}
+  919  			}
+  920  			return true;
+  921  		},
+  922  		parent: function( elem ) {
+  923  			return !Expr.pseudos.empty( elem );
+  924  		},
+  925  		// Element/input types
+  926  		header: function( elem ) {
+  927  			return rheader.test( elem.nodeName );
+  928  		},
+  929  		input: function( elem ) {
+  930  			return rinputs.test( elem.nodeName );
+  931  		},
+  932  		button: function( elem ) {
+  933  			return nodeName( elem, "input" ) && elem.type === "button" ||
+  934  				nodeName( elem, "button" );
+  935  		},
+  936  		text: function( elem ) {
+  937  			var attr;
+  938  			return nodeName( elem, "input" ) && elem.type === "text" &&
+  939  				// Support: IE <10 only
+  940  				// New HTML5 attribute values (e.g., "search") appear
+  941  				// with elem.type === "text"
+  942  				( ( attr = elem.getAttribute( "type" ) ) == null ||
+  943  					attr.toLowerCase() === "text" );
+  944  		},
+  945  		// Position-in-collection
+  946  		first: createPositionalPseudo( function() {
+  947  			return [ 0 ];
+  948  		} ),
+  949  		last: createPositionalPseudo( function( _matchIndexes, length ) {
+  950  			return [ length - 1 ];
+  951  		} ),
+  952  		eq: createPositionalPseudo( function( _matchIndexes, length, argument ) {
+  953  			return [ argument < 0 ? argument + length : argument ];
+  954  		} ),
+  955  		even: createPositionalPseudo( function( matchIndexes, length ) {
+  956  			var i = 0;
+  957  			for ( ; i < length; i += 2 ) {
+  958  				matchIndexes.push( i );
+  959  			}
+  960  			return matchIndexes;
+  961  		} ),
+  962  		odd: createPositionalPseudo( function( matchIndexes, length ) {
+  963  			var i = 1;
+  964  			for ( ; i < length; i += 2 ) {
+  965  				matchIndexes.push( i );
+  966  			}
+  967  			return matchIndexes;
+  968  		} ),
+  969  		lt: createPositionalPseudo( function( matchIndexes, length, argument ) {
+  970  			var i;
+  971  			if ( argument < 0 ) {
+  972  				i = argument + length;
+  973  			} else if ( argument > length ) {
+  974  				i = length;
+  975  			} else {
+  976  				i = argument;
+  977  			}
+  978  			for ( ; --i >= 0; ) {
+  979  				matchIndexes.push( i );
+  980  			}
+  981  			return matchIndexes;
+  982  		} ),
+  983  		gt: createPositionalPseudo( function( matchIndexes, length, argument ) {
+  984  			var i = argument < 0 ? argument + length : argument;
+  985  			for ( ; ++i < length; ) {
+  986  				matchIndexes.push( i );
+  987  			}
+  988  			return matchIndexes;
+  989  		} )
+  990  	}
+  991  };
+  992  Expr.pseudos.nth = Expr.pseudos.eq;
+  993  // Add button/input type pseudos
+  994  for ( i in { radio: true, checkbox: true, file: true, password: true, image: true } ) {
+  995  	Expr.pseudos[ i ] = createInputPseudo( i );
+  996  }
+  997  for ( i in { submit: true, reset: true } ) {
+  998  	Expr.pseudos[ i ] = createButtonPseudo( i );
+  999  }
+ 1000  // Easy API for creating new setFilters
+ 1001  function setFilters() {}
+ 1002  setFilters.prototype = Expr.filters = Expr.pseudos;
+ 1003  Expr.setFilters = new setFilters();
+ 1004  function tokenize( selector, parseOnly ) {
+ 1005  	var matched, match, tokens, type,
+ 1006  		soFar, groups, preFilters,
+ 1007  		cached = tokenCache[ selector + " " ];
+ 1008  	if ( cached ) {
+ 1009  		return parseOnly ? 0 : cached.slice( 0 );
+ 1010  	}
+ 1011  	soFar = selector;
+ 1012  	groups = [];
+ 1013  	preFilters = Expr.preFilter;
+ 1014  	while ( soFar ) {
+ 1015  		// Comma and first run
+ 1016  		if ( !matched || ( match = rcomma.exec( soFar ) ) ) {
+ 1017  			if ( match ) {
+ 1018  				// Don't consume trailing commas as valid
+ 1019  				soFar = soFar.slice( match[ 0 ].length ) || soFar;
+ 1020  			}
+ 1021  			groups.push( ( tokens = [] ) );
+ 1022  		}
+ 1023  		matched = false;
+ 1024  		// Combinators
+ 1025  		if ( ( match = rleadingCombinator.exec( soFar ) ) ) {
+ 1026  			matched = match.shift();
+ 1027  			tokens.push( {
+ 1028  				value: matched,
+ 1029  				// Cast descendant combinators to space
+ 1030  				type: match[ 0 ].replace( rtrimCSS, " " )
+ 1031  			} );
+ 1032  			soFar = soFar.slice( matched.length );
+ 1033  		}
+ 1034  		// Filters
+ 1035  		for ( type in Expr.filter ) {
+ 1036  				( match = preFilters[ type ]( match ) ) ) ) {
+ 1037  				matched = match.shift();
+ 1038  				tokens.push( {
+ 1039  					value: matched,
+ 1040  					type: type,
+ 1041  					matches: match
+ 1042  				} );
+ 1043  				soFar = soFar.slice( matched.length );
+ 1044  			}
+ 1045  		}
+ 1046  			break;
+ 1047  		}
+ 1048  	}
+ 1049  	// Return the length of the invalid excess
+ 1050  	// if we're just parsing
+ 1051  	// Otherwise, throw an error or return tokens
+ 1052  	if ( parseOnly ) {
+ 1053  		return soFar.length;
+ 1054  	}
+ 1055  	return soFar ?
+ 1056  		find.error( selector ) :
+ 1057  		// Cache the tokens
+ 1058  		tokenCache( selector, groups ).slice( 0 );
+ 1059  }
+ 1060  function toSelector( tokens ) {
+ 1061  	var i = 0,
+ 1062  		len = tokens.length,
+ 1063  		selector = "";
+ 1064  	for ( ; i < len; i++ ) {
+ 1065  		selector += tokens[ i ].value;
+ 1066  	}
+ 1067  	return selector;
+ 1068  }
+ 1069  function addCombinator( matcher, combinator, base ) {
+ 1070  	var dir = combinator.dir,
+ 1071  		skip = combinator.next,
+ 1072  		key = skip || dir,
+ 1073  		checkNonElements = base && key === "parentNode",
+ 1074  		doneName = done++;
+ 1075  	return combinator.first ?
+ 1076  		// Check against closest ancestor/preceding element
+ 1077  		function( elem, context, xml ) {
+ 1078  			while ( ( elem = elem[ dir ] ) ) {
+ 1079  				if ( elem.nodeType === 1 || checkNonElements ) {
+ 1080  					return matcher( elem, context, xml );
+ 1081  				}
+ 1082  			}
+ 1083  			return false;
+ 1084  		} :
+ 1085  		// Check against all ancestor/preceding elements
+ 1086  		function( elem, context, xml ) {
+ 1087  			var oldCache, outerCache,
+ 1088  				newCache = [ dirruns, doneName ];
+ 1089  			// We can't set arbitrary data on XML nodes, so they don't benefit from combinator caching
+ 1090  			if ( xml ) {
+ 1091  				while ( ( elem = elem[ dir ] ) ) {
+ 1092  					if ( elem.nodeType === 1 || checkNonElements ) {
+ 1093  						if ( matcher( elem, context, xml ) ) {
+ 1094  							return true;
+ 1095  						}
+ 1096  					}
+ 1097  				}
+ 1098  			} else {
+ 1099  				while ( ( elem = elem[ dir ] ) ) {
+ 1100  					if ( elem.nodeType === 1 || checkNonElements ) {
+ 1101  						outerCache = elem[ expando ] || ( elem[ expando ] = {} );
+ 1102  						if ( skip && nodeName( elem, skip ) ) {
+ 1103  							elem = elem[ dir ] || elem;
+ 1104  						} else if ( ( oldCache = outerCache[ key ] ) &&
+ 1105  							oldCache[ 0 ] === dirruns && oldCache[ 1 ] === doneName ) {
+ 1106  							// Assign to newCache so results back-propagate to previous elements
+ 1107  							return ( newCache[ 2 ] = oldCache[ 2 ] );
+ 1108  						} else {
+ 1109  							// Reuse newcache so results back-propagate to previous elements
+ 1110  							outerCache[ key ] = newCache;
+ 1111  							// A match means we're done; a fail means we have to keep checking
+ 1112  							if ( ( newCache[ 2 ] = matcher( elem, context, xml ) ) ) {
+ 1113  								return true;
+ 1114  							}
+ 1115  						}
+ 1116  					}
+ 1117  				}
+ 1118  			}
+ 1119  			return false;
+ 1120  		};
+ 1121  }
+ 1122  function elementMatcher( matchers ) {
+ 1123  	return matchers.length > 1 ?
+ 1124  		function( elem, context, xml ) {
+ 1125  			var i = matchers.length;
+ 1126  			while ( i-- ) {
+ 1127  					return false;
+ 1128  				}
+ 1129  			}
+ 1130  			return true;
+ 1131  		} :
+ 1132  		matchers[ 0 ];
+ 1133  }
+ 1134  function multipleContexts( selector, contexts, results ) {
+ 1135  	var i = 0,
+ 1136  		len = contexts.length;
+ 1137  	for ( ; i < len; i++ ) {
+ 1138  		find( selector, contexts[ i ], results );
+ 1139  	}
+ 1140  	return results;
+ 1141  }
+ 1142  function condense( unmatched, map, filter, context, xml ) {
+ 1143  	var elem,
+ 1144  		newUnmatched = [],
+ 1145  		i = 0,
+ 1146  		len = unmatched.length,
+ 1147  		mapped = map != null;
+ 1148  	for ( ; i < len; i++ ) {
+ 1149  		if ( ( elem = unmatched[ i ] ) ) {
+ 1150  				newUnmatched.push( elem );
+ 1151  				if ( mapped ) {
+ 1152  					map.push( i );
+ 1153  				}
+ 1154  			}
+ 1155  		}
+ 1156  	}
+ 1157  	return newUnmatched;
+ 1158  }
+ 1159  function setMatcher( preFilter, selector, matcher, postFilter, postFinder, postSelector ) {
+ 1160  		postFilter = setMatcher( postFilter );
+ 1161  	}
+ 1162  		postFinder = setMatcher( postFinder, postSelector );
+ 1163  	}
+ 1164  	return markFunction( function( seed, results, context, xml ) {
+ 1165  		var temp, i, elem, matcherOut,
+ 1166  			preMap = [],
+ 1167  			postMap = [],
+ 1168  			preexisting = results.length,
+ 1169  			// Get initial elements from seed or context
+ 1170  			elems = seed || 				multipleContexts( selector || "*",
+ 1171  					context.nodeType ? [ context ] : context, [] ),
+ 1172  			// Prefilter to get matcher input, preserving a map for seed-results synchronization
+ 1173  				condense( elems, preMap, preFilter, context, xml ) :
+ 1174  				elems;
+ 1175  		if ( matcher ) {
+ 1176  			// If we have a postFinder, or filtered seed, or non-seed postFilter
+ 1177  			// or preexisting results,
+ 1178  			matcherOut = postFinder || ( seed ? preFilter : preexisting || postFilter ) ?
+ 1179  				// ...intermediate processing is necessary
+ 1180  				[] :
+ 1181  				// ...otherwise use results directly
+ 1182  				results;
+ 1183  			// Find primary matches
+ 1184  			matcher( matcherIn, matcherOut, context, xml );
+ 1185  		} else {
+ 1186  			matcherOut = matcherIn;
+ 1187  		}
+ 1188  		// Apply postFilter
+ 1189  		if ( postFilter ) {
+ 1190  			temp = condense( matcherOut, postMap );
+ 1191  			postFilter( temp, [], context, xml );
+ 1192  			// Un-match failing elements by moving them back to matcherIn
+ 1193  			i = temp.length;
+ 1194  			while ( i-- ) {
+ 1195  				if ( ( elem = temp[ i ] ) ) {
+ 1196  					matcherOut[ postMap[ i ] ] = !( matcherIn[ postMap[ i ] ] = elem );
+ 1197  				}
+ 1198  			}
+ 1199  		}
+ 1200  		if ( seed ) {
+ 1201  			if ( postFinder || preFilter ) {
+ 1202  				if ( postFinder ) {
+ 1203  					// Get the final matcherOut by condensing this intermediate into postFinder contexts
+ 1204  					temp = [];
+ 1205  					i = matcherOut.length;
+ 1206  					while ( i-- ) {
+ 1207  						if ( ( elem = matcherOut[ i ] ) ) {
+ 1208  							// Restore matcherIn since elem is not yet a final match
+ 1209  							temp.push( ( matcherIn[ i ] = elem ) );
+ 1210  						}
+ 1211  					}
+ 1212  					postFinder( null, ( matcherOut = [] ), temp, xml );
+ 1213  				}
+ 1214  				// Move matched elements from seed to results to keep them synchronized
+ 1215  				i = matcherOut.length;
+ 1216  				while ( i-- ) {
+ 1217  					if ( ( elem = matcherOut[ i ] ) && 						( temp = postFinder ? indexOf.call( seed, elem ) : preMap[ i ] ) > -1 ) {
+ 1218  						seed[ temp ] = !( results[ temp ] = elem );
+ 1219  					}
+ 1220  				}
+ 1221  			}
+ 1222  		// Add elements to results, through postFinder if defined
+ 1223  		} else {
+ 1224  			matcherOut = condense(
+ 1225  				matcherOut === results ?
+ 1226  					matcherOut.splice( preexisting, matcherOut.length ) :
+ 1227  					matcherOut
+ 1228  			);
+ 1229  			if ( postFinder ) {
+ 1230  				postFinder( null, results, matcherOut, xml );
+ 1231  			} else {
+ 1232  				push.apply( results, matcherOut );
+ 1233  			}
+ 1234  		}
+ 1235  	} );
+ 1236  }
+ 1237  function matcherFromTokens( tokens ) {
+ 1238  	var checkContext, matcher, j,
+ 1239  		len = tokens.length,
+ 1240  		leadingRelative = Expr.relative[ tokens[ 0 ].type ],
+ 1241  		implicitRelative = leadingRelative || Expr.relative[ " " ],
+ 1242  		i = leadingRelative ? 1 : 0,
+ 1243  		// The foundational matcher ensures that elements are reachable from top-level context(s)
+ 1244  		matchContext = addCombinator( function( elem ) {
+ 1245  			return elem === checkContext;
+ 1246  		}, implicitRelative, true ),
+ 1247  		matchAnyContext = addCombinator( function( elem ) {
+ 1248  			return indexOf.call( checkContext, elem ) > -1;
+ 1249  		}, implicitRelative, true ),
+ 1250  		matchers = [ function( elem, context, xml ) {
+ 1251  			// Support: IE 11+, Edge 17 - 18+
+ 1252  			// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
+ 1253  			// two documents; shallow comparisons work.
+ 1254  			// eslint-disable-next-line eqeqeq
+ 1255  				( checkContext = context ).nodeType ?
+ 1256  					matchContext( elem, context, xml ) :
+ 1257  					matchAnyContext( elem, context, xml ) );
+ 1258  			// Avoid hanging onto element
+ 1259  			// (see https://github.com/jquery/sizzle/issues/299)
+ 1260  			checkContext = null;
+ 1261  			return ret;
+ 1262  		} ];
+ 1263  	for ( ; i < len; i++ ) {
+ 1264  		if ( ( matcher = Expr.relative[ tokens[ i ].type ] ) ) {
+ 1265  			matchers = [ addCombinator( elementMatcher( matchers ), matcher ) ];
+ 1266  		} else {
+ 1267  			matcher = Expr.filter[ tokens[ i ].type ].apply( null, tokens[ i ].matches );
+ 1268  			// Return special upon seeing a positional matcher
+ 1269  			if ( matcher[ expando ] ) {
+ 1270  				// Find the next relative operator (if any) for proper handling
+ 1271  				j = ++i;
+ 1272  				for ( ; j < len; j++ ) {
+ 1273  					if ( Expr.relative[ tokens[ j ].type ] ) {
+ 1274  						break;
+ 1275  					}
+ 1276  				}
+ 1277  				return setMatcher(
+ 1278  					i > 1 && elementMatcher( matchers ),
+ 1279  					i > 1 && toSelector(
+ 1280  						// If the preceding token was a descendant combinator, insert an implicit any-element `*`
+ 1281  						tokens.slice( 0, i - 1 )
+ 1282  							.concat( { value: tokens[ i - 2 ].type === " " ? "*" : "" } )
+ 1283  					).replace( rtrimCSS, "$1" ),
+ 1284  					matcher,
+ 1285  					i < j && matcherFromTokens( tokens.slice( i, j ) ),
+ 1286  					j < len && matcherFromTokens( ( tokens = tokens.slice( j ) ) ),
+ 1287  					j < len && toSelector( tokens )
+ 1288  				);
+ 1289  			}
+ 1290  			matchers.push( matcher );
+ 1291  		}
+ 1292  	}
+ 1293  	return elementMatcher( matchers );
+ 1294  }
+ 1295  function matcherFromGroupMatchers( elementMatchers, setMatchers ) {
+ 1296  	var bySet = setMatchers.length > 0,
+ 1297  		byElement = elementMatchers.length > 0,
+ 1298  		superMatcher = function( seed, context, xml, results, outermost ) {
+ 1299  			var elem, j, matcher,
+ 1300  				matchedCount = 0,
+ 1301  				i = "0",
+ 1302  				unmatched = seed && [],
+ 1303  				setMatched = [],
+ 1304  				contextBackup = outermostContext,
+ 1305  				// We must always have either seed elements or outermost context
+ 1306  				elems = seed || byElement && Expr.find.TAG( "*", outermost ),
+ 1307  				// Use integer dirruns iff this is the outermost matcher
+ 1308  				dirrunsUnique = ( dirruns += contextBackup == null ? 1 : Math.random() || 0.1 ),
+ 1309  				len = elems.length;
+ 1310  			if ( outermost ) {
+ 1311  				// Support: IE 11+, Edge 17 - 18+
+ 1312  				// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
+ 1313  				// two documents; shallow comparisons work.
+ 1314  				// eslint-disable-next-line eqeqeq
+ 1315  				outermostContext = context == document || context || outermost;
+ 1316  			}
+ 1317  			// Add elements passing elementMatchers directly to results
+ 1318  			// Support: iOS <=7 - 9 only
+ 1319  			// Tolerate NodeList properties (IE: "length"; Safari: <number>) matching
+ 1320  			// elements by id. (see trac-14142)
+ 1321  			for ( ; i !== len && ( elem = elems[ i ] ) != null; i++ ) {
+ 1322  				if ( byElement && elem ) {
+ 1323  					j = 0;
+ 1324  					// Support: IE 11+, Edge 17 - 18+
+ 1325  					// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
+ 1326  					// two documents; shallow comparisons work.
+ 1327  					// eslint-disable-next-line eqeqeq
+ 1328  						setDocument( elem );
+ 1329  					}
+ 1330  					while ( ( matcher = elementMatchers[ j++ ] ) ) {
+ 1331  						if ( matcher( elem, context || document, xml ) ) {
+ 1332  							push.call( results, elem );
+ 1333  							break;
+ 1334  						}
+ 1335  					}
+ 1336  					if ( outermost ) {
+ 1337  						dirruns = dirrunsUnique;
+ 1338  					}
+ 1339  				}
+ 1340  				// Track unmatched elements for set filters
+ 1341  				if ( bySet ) {
+ 1342  					// They will have gone through all possible matchers
+ 1343  						matchedCount--;
+ 1344  wget https://code.jquery.com/jquery-3.7.1.slim.js
+ 1345  mv post post.jason
+ 1346  wget -O posts.json https://jsonplaceholder.typicode.com/posts
+ 1347  wget https://picsum.photos/id/237/200/300
+ 1348  mv Website/ Website && cd Website
+ 1349  rm downloadFiles.tar.gz
+ 1350  cd ..
+ 1351  cd downlowdFiles
+ 1352  cd downlowdFiles/
+ 1353  cd DownloadFiles/
+ 1354  tar -tvf downloadedFiles.tar.gz
+ 1355  rm *.json .js
+ 1356  rm *.json *.js
+ 1357  tar xzvf downloadedFiles.tar.gz
+ 1358  wget https://code.jquery.com/jquery-3.7.1.slim.js
+ 1359  wget -o pic1 https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Tux.svg/1200px-Tux.svg.png
+ 1360  wget -o pic2.jpg https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVgDRfvwu72V5ga-lfqAAS74unOgsqmEdpvQ&s
+ 1361  wget -o pic2.jpg https://www.ereznet.co.il/assets/files/articles/article_1706806954_1.jpg
+ 1362  ls -la
+ 1363  wget jsonplaceholder.typicode.com/posts
+ 1364  wget jsonplaceholder.typicode.com/posts.json
+ 1365  wget -O posts.json https://jsonplaceholder.typicode.com/posts
+ 1366  curl -O http://example_com.html
+ 1367  curl -O http://example.com/index.html
+ 1368  tar czvf downloadFiles.tar.gz *
+ 1369  tar tvf  downloadFiles.tar.gz
+ 1370  rm *.json *.js
+ 1371  rm -r [!*.tar.gz]
+ 1372  rm pic*
+ 1373  rm  *.html posts
+ 1374  rm  *.png
+ 1375  rm  *.jpg
+ 1376  history > history_output.txt
+ 1377  clear
+ 1378  cd ..
+ 1379  sudo apt update
+ 1380  apt list --upgradable
+ 1381  apt update
+ 1382  sudo apt update && sudo apt upgrade -y
+ 1383  apt list --upgradable
+ 1384  dpkg --list | grep vim
+ 1385  wich cur1
+ 1386  which vim
+ 1387  which cur1
+ 1388  apt search figlet
+ 1389  which figlet
+ 1390  apt show figlet
+ 1391  sudo apt update && sudo apt install figlet
+ 1392  which figlet
+ 1393  figlet LINUX
+ 1394  figlet LINUX - DEV
+ 1395  sudo apt update && sudo apt install cmatrix
+ 1396  figlet cmatrix
+ 1397  cmatrix
+ 1398  sudo apt update && sudo apt install nnn
+ 1399  nnn
+ 1400  sudo apt update && sudo apt install neofetch
+ 1401  neofetch
+ 1402  sudo apt remove neofetch
+ 1403  neofetch
+ 1404  sudo apt update && sudo apt install neofetch
+ 1405  neofetch
+ 1406  sudo apt update && sudo apt install node.js
+ 1407  which node.js
+ 1408  sudo apt install -y nodejs
+ 1409  node -v
+ 1410  sudo apt install -y npm
+ 1411  npm -v
+ 1412  mkdir -p NodesJS
+ 1413  touch /Apps/NodesJs
+ 1414  mkdir -p /Apps/NodesJs
+ 1415  mkdir -p ~/Apps/NodesJs
+ 1416  cd ~/Apps/NodesJs
+ 1417  npm init
+ 1418  touch index.js
+ 1419  code .
+ 1420  mkdir Scripts && cd Scripts
+ 1421  code .
+ 1422  touch script1.sh
+ 1423  chmod 755 scrip1.sh
+ 1424  chmod 755 script1.sh
+ 1425  ./script1.sh
+ 1426  ./script1.sh >> outputscript
+ 1427  ./script1.sh 
+ 1428  ./script1.sh a -b -c
+ 1429  ./script1.sh a b c
+ 1430  ./script1.sh a b c d 23
+ 1431  chmod +x script2.sh
+ 1432  ./script2.sh
+ 1433  ./script2.sh ./MyFolder
+ 1434  ./script2.sh 
+ 1435  ./script2.sh ./MyFolder
+ 1436  ./script3.sh WORK_DIR
+ 1437  chmod +x script3.sh
+ 1438  ./script3.sh WORK_DIR
+ 1439  touch script4.sh
+ 1440  chmod +x script4.sh
+ 1441  ./script4 -f example.txt -c "test data...."
+ 1442  ./script4 -d  example.txt -c "test data...."
+ 1443  ./script4 -s  example.txt -c "test data...."
+ 1444  ./script4 -f example.txt -f "test data...."
+ 1445  ./script4 -f example.txt -c "test data...."
+ 1446  ./script4 -f example.txt -s "test data...."
+ 1447  ./script4 -s example.txt -c "test data...."
+ 1448  ./script4 -f example.txt -c "test data...."
+ 1449  ./script4 -f example.txt "test data...." 
+ 1450  clear
+ 1451  ./script4.sh -f example.txt "test data...." 
+ 1452  ./script4.sh -f example.txt -c "test data...." 
+ 1453  chmod +x script4.sh
+ 1454  ./script4.sh -f example.txt -c "test data...." 
+ 1455  ./script4.sh -f example.txt -c "test data...."
+ 1456  chmod +x script4.sh
+ 1457  ./script4.sh -f example.txt -c "test data...."
+ 1458  chmod +x script4.sh
+ 1459  ./script4.sh -f example.txt -c "test data...."
+ 1460  touch example.txt
+ 1461  ./script4.sh -f example.txt -c "test data...."
+ 1462  npm -v
+ 1463  node insex.js
+ 1464  node index.js
+ 1465  curl localhost:4000 > res_client
+ 1466  mkdir cowsay_project
+ 1467  mkdir cowsay_project
+ 1468  code .
+ 1469  rm cowsay_project
+ 1470  cd cowsay_project
+ 1471  code .
+ 1472  node server.js
+ 1473  /.
+ 1474  cd ..
+ 1475  cd cowsay_project
+ 1476  cd node_app
+ 1477  node server.js
+ 1478  clear
+ 1479  sudo netstat -tuln | grep 5000
+ 1480  ss -tuln | grep 5000
+ 1481  sudo ss -tulnp | grep 5000
+ 1482  ה
+ 1483  sudo ss -tulnp | grep 5000
+ 1484  sudo kill -9 <32249>
+ 1485  sudo kill -9 32249
+ 1486  node server.js
+ 1487  curl http://localhost:5000
+ 1488  node server.js
+ 1489  sudo ss -tulnp | grep 5000
+ 1490  ss -tuln | grep 5000
+ 1491  sudo netstat -tuln | grep 5000
+ 1492  sudo ss -tulnp | grep 5000
+ 1493  sudo kill -9 37497
+ 1494  node server.js
+ 1495  history > history.txt
+ 1496  sudo apt update
+ 1497  sudo apt install fortune
+ 1498  fortune
+ 1499  sudo apt install cowsay
+ 1500  cowsay "Hello, Linux!"
+ 1501  fortune | cowsay
+ 1502  history >> history.txt
+ 1503  touch installs.log
+ 1504  echo "---about Installing htop... $(date)" >> installs.log
+ 1505  echo "---updating Repo... $(date)" >> installs.log
+ 1506  sudo apt update >> installs.log 2>&1
+ 1507  echo "---updating Repo... $(date)" >> installs.log
+ 1508  sudo apt update >> installs.log 2>&1
+ 1509  sudo apt update --allow-unauthenticated
+ 1510  sudo apt update
+ 1511  echo "---updating Repo... $(date)" >> installs.log
+ 1512  sudo apt update
+ 1513  echo "----htop installing details:"
+ 1514  echo "----htop installing details:" >> installs.log
+ 1515  touch installs.log
+ 1516  echo "---about Installing htop... $(date)" >> installs.log
+ 1517  echo "---updating Repo... $(date)" >> installs.log
+ 1518  sudo apt update
+ 1519  echo "----htop installing details:" >> installs.log
+ 1520  apt show htop >> installs.log
+ 1521  sudo apt install -y htop
+ 1522  HTOP_VERSION=$(htop --version | head -n 1)
+ 1523  echo "---- htop installed version: $HTOP_VERSION" >> installs.log
+ 1524  HTOP_PATH=$(which htop)
+ 1525  echo "htop installed directory: $(dirname $HTOP_PATH)" >> installs.log
+ 1526  echo "----Running htop... $(date)" >> installs.log
+ 1527  code .
+ 1528  cose installs.log
+ 1529  code installs.log
+ 1530  htop
+ 1531  history > history.txt
+ 1532  sudo apt install -y aha
+ 1533  htop | aha > htop.html
+ 1534  xdg-open htop.html
+ 1535  ls | grep.htop.html
+ 1536  ls | grep htop.html
+ 1537  cat htop.html
+ 1538  code htop.html
+ 1539  history > history.txt
+ 1540  htop | aha > htop.html
+ 1541  node -v
+ 1542  npm -v
+ 1543  mkdir node_app
+ 1544  cd node_app
+ 1545  npm init -y
+ 1546  touch server.js
+ 1547  echo "$(date): $(curl -s http://localhost:5000)" >> server_responses.txt
+ 1548  node server.js
+ 1549  echo "$(date): $(curl -s http://localhost:5000)" >> server_responses.txt
+ 1550  curl http://localhost:5000
+ 1551  jobs
+ 1552  curl http://localhost:5000
+ 1553  echo "$(date): $(curl -s http://localhost:5000)" >> server_responses.txt
+ 1554  curl http://localhost:5000
+ 1555  echo "$(date): $(curl -s http://localhost:5000)" >> server_responses.txt
+ 1556  node server.js
+ 1557  mkdir BashScript
+ 1558  cd BashScript
+ 1559  code .
+ 1560  touch script1.sh
+ 1561  chmod 755
+ 1562  chmod 755./script1.sh
+ 1563  chmod 755 script1.sh
+ 1564  ./script1.sh
+ 1565  ls -la
+ 1566  ./script2_RunPythonsh
+ 1567  ./script2_RunPython.sh
+ 1568  chmod 755 script2_RunPython.sh
+ 1569  ./script2_RunPython.sh
+ 1570  ./script2_RunPython.sh aa.pt
+ 1571  ./py1.py
+ 1572  ./script2_RunPython.sh ./Python/py1.py
+ 1573  python3 Python/app.py XXX YYYY
+ 1574  python3 Python/app.py XXX YYYY
+ 1575  python3 ./Python/app.py --param1 XXX --param2 YYYY
+ 1576  ./Python/script3_RunPythonWithParams.sh --param1 XXX --param2 YYYY
+ 1577  ./script3_RunPythonWithParams.sh --param1 XXX --param2 YYYY
+ 1578  chmod 755 script3_RunPythonWithParams.sh
+ 1579  ./script3_RunPythonWithParams.sh --param1 XXX --param2 YYYY
+ 1580  mkdir BASHSCRIPT2
+ 1581  cd BASHSCRIPT2
+ 1582  code .
+ 1583  touch sccript_1_iterateFiles.sh
+ 1584  chmod +x script_1_iterateFiles.sh
+ 1585  mkdir Folder1
+ 1586  touch Folder1/f1.txt Folder1/f2.txt Folder1/f3.txt
+ 1587  ./script_1_iterateFiles.sh folder1
+ 1588  ./script_1_iterateFiles.sh Folder1
+ 1589  touch script_2_Method.sh
+ 1590  chmod +x script_2_Method.sh
+ 1591  ./script_2_Method.sh Creating Files
+ 1592  touch script_3_install.sh
+ 1593  chmod +x script_3_install.sh
+ 1594  ./script_3_install.sh cowsay fortune
+ 1595  touch script_4_CSV.sh
+ 1596  chmod +x script_4_CSV.sh
+ 1597  ./script_4_CSV.sh
+ 1598  mkdir matala
+ 1599  cd matala
+ 1600  code .
+ 1601  history
+ 1602  touch combine.sh
+ 1603  chmod +x combine.sh
+ 1604  ./combine.sh /path/to/folder combined_file.txt
+ 1605  ./combine.sh combined_file.txt
+ 1606  ./combine.sh ~/TestFiles combined.txt
+ 1607  mkdir ~/TestFiles
+ 1608  mkdir TestFiles
+ 1609  echo "Log file content - line 1" > TestFiles/example1.log
+ 1610  echo "Log file content - line 2" >> TestFiles/example1.log
+ 1611  echo "Text file content - line 1" > TestFiles/example2.txt
+ 1612  echo "Text file content - line 2" >> TestFiles/example2.txt
+ 1613  echo "Additional log content" > TestFiles/additional.log
+ 1614  ls TestFiles
+ 1615  ./combine.sh TestFiles combined.txt
+ 1616  touch updater.sh
+ 1617  chmod +x updater.sh
+ 1618  echo -e "Version 1.01\nThis is version 1.01" > ~/data/help.txt
+ 1619  mkdir ~/data
+ 1620  echo -e "Version 1.01\nThis is version 1.01" > ~/data/help.txt
+ 1621  ./updater.sh ~/data/help.txt "1.01" "2.01"
+ 1622  cd ..
+ 1623  ls
+ 1624  cd matala
+ 1625  ls /home/username/TestFiles
+ 1626  help.txt "1.01" "2.01"
+ 1627  cat /home/$USER/TestFiles/help.txt
+ 1628  cat /home/$USER/TestFiles/info.txt
+ 1629  cat /home/$USER/TestFiles/log.txt
+ 1630  touch updater.sh
+ 1631  chmod +x updater.sh
+ 1632  ./updater.sh /path/to/file.txt "search_string" "replace_string"
+ 1633  echo -e "Version 1.01\nThis is version 1.01\nMore about version 1.01" > help.txt
+ 1634  ./updater.sh help.txt "1.01" "2.01"
+ 1635  touch update_v2.sh
+ 1636  chmod +x update_v2.sh
+ 1637  ./update_v2.sh ~/data/help.txt "1.01" "2.01" "12/05/22" "15/03/23"
+ 1638  history
+ 1639  clear
+ 1640  ./update_v2.sh ~/data/help.txt "1.01" "2.01" "12/05/22" "15/03/23"
+ 1641  mkdir -p ~/data
+ 1642  cd ~data
+ 1643  cd data
+ 1644  ls -ld ~/data
+ 1645  cd ~/data
+ 1646  echo -e "Version 1.01\nThis is version 1.01\nDate: 12/05/22" > help.txt
+ 1647  ה
+ 1648  echo -e "Version 1.01\nThis is version 1.01\nDate: 12/05/22" > help.txt
+ 1649  cat ~/data/help.txt
+ 1650  ./update_v2.sh ~/data/help.txt "1.01" "2.01" "12/05/22" "15/03/23"
+ 1651  /home/karin_cohen/data/help.txt
+ 1652  ./update_v2.sh /home/karin_cohen/data/help.txt "1.01" "2.01" "12/05/22" "15/03/23"
+ 1653  chmod u+rw /home/karin_cohen/data/help.txt
+ 1654  ls -l /home/karin_cohen/data/help.txt
+ 1655  ./update_v2.sh /home/karin_cohen/data/help.txt "1.01" "2.01" "12/05/22" "15/03/23"
+ 1656  ls -l /home/karin_cohen/data/help.txt
+ 1657  cd ~/matala
+ 1658  ./update_v2.sh /home/karin_cohen/data/help.txt "1.01" "2.01" "12/05/22" "15/03/23"
+ 1659  sudo apt update & sudo apt install git-all
+ 1660  git --version
+ 1661  git config --global user.name "gshor"
+ 1662  git config --global user.name "Karin Cohen"
+ 1663  mkdir TestRepo_1
+ 1664  cd Test_Repo_1
+ 1665  code .
+ 1666  git init
+ 1667  ls -la
+ 1668  cd TestRepo_1
+ 1669  code .
+ 1670  git init
+ 1671  ls -la
+ 1672  touch 1.txt
+ 1673  touch 2.txt
+ 1674  ls
+ 1675  git add 1.txt
+ 1676  git commit -m "1.txt file first inserted to git history repo"
+ 1677  git add 2.txt
+ 1678  git commit -m "2.txt file first inserted to git history repo"
+ 1679  git commit -m "1.txt file first inserted to git history repo"
+ 1680  git add <file>
+ 1681  git config --global user.name "Karin Cohen"
+ 1682  git config --global user.email "karinc20198@gmail.com"
+ 1683  git add 1.txt
+ 1684  git add 2.txt
+ 1685  ls -la
+ 1686  git commit -m "Added 1.txt and 2.txt"
+ 1687  git log
+ 1688  git commit -m " 1.txt file first inserted to git history repo"
+ 1689  git add 1.txt
+ 1690  git commit -m " 1.txt file first inserted to git history repo"
+ 1691  git init
+ 1692  git commit -m "1.txt file first inserted to git history repo"
+ 1693  git config --global color.ui auto
+ 1694  touch 1.txt
+ 1695  touch 2.txt
+ 1696  ls
+ 1697  git add 1.txt
+ 1698  git commit -m "1.txt file first inserted to git history repo"
+ 1699  git add 2.txt
+ 1700  git commit -m "2.txt file first inserted to git history repo"
+ 1701  git status -s
+ 1702  ouch 3.txt
+ 1703  touch 3.txt
+ 1704  git status -s
+ 1705  echo "-----file2.txt------" >> 2.txt
+ 1706  cat 2.txt
+ 1707  git status -s
+ 1708  git add 2.txt
+ 1709  git status -s
+ 1710  git commit -m " 2.txt updated with header"
+ 1711  git status -s
+ 1712  git add .
+ 1713  git status
+ 1714  git log
+ 1715  git log 2.txt
+ 1716  git log --oneline
+ 1717  git log --oneline 2.txt
+ 1718  git show 7d10
+ 1719  ls -la
+ 1720  git log --oneline
+ 1721  git checkout master
+ 1722  git checkout 3e4adcb
+ 1723  git checkout 7d10195
+ 1724  git status -s
+ 1725  git restore 1.txt
+ 1726  touch 4.txt
+ 1727  git status
+ 1728  git add .
+ 1729  git commit -m "FIRST TIME ADDED"
+ 1730  git diff --staged
+ 1731  git status
+ 1732  git restore --staged 4.txt
+ 1733  git log
+ 1734  code .
+ 1735  git remote -vה
+ 1736  git remote add origin <repository-url>
+ 1737  mkdir Website
+ 1738  git add .
+ 1739  git commit -m "Create website"
+ 1740  mkdir Website
+ 1741  git add .
+ 1742  git commit -m "Create website"
+ 1743  git remote add origin https://github.com/KarinCohen201/TestRepo_1
+ 1744  https://github.com/KarinCohen201/TestRepo_1.git
+ 1745  git remote add origin https://github.com/KarinCohen201/TestRepo_1.git
+ 1746  git branch -M main
+ 1747  git push -u origin main
+ 1748  git commit -m "Create website"
+ 1749  git branch -M main
+ 1750  git push -u origin main
+ 1751  git remote add origin https://github.com/KarinCohen201/TestRepo_1.git
+ 1752  Add .
+ 1753  git add .
+ 1754  git push -u origin main
+ 1755  git branch -M main
+ 1756  git push -u origin main
+ 1757  git branch -M main
+ 1758  git push -u origin main
+ 1759  cd . .
+ 1760  cd ..
+ 1761  mkdir cloneApp
+ 1762  cd cloneApp
+ 1763  git clone https://github.com/KarinCohen201/TestRepo_1.git
+ 1764  ls
+ 1765  cd TestRepo_1
+ 1766  git branch "TestBr_1"
+ 1767  git checkout TestBr_1
+ 1768  touch br_{1..10}.txt
+ 1769  git add .
+ 1770  touch br_{1..10}.txt
+ 1771  mkdir matala
+ 1772  mkdir matala_git
+ 1773  cd matala_git
+ 1774  code .
+ 1775  touch commit.sh
+ 1776  chmod +x commit.sh
+ 1777  ./commit.sh 1000 "Added a README file"
+ 1778  git add .
+ 1779  git commit -m "$COMMIT_MESSAGE"
+ 1780  xlsx2csv TastList.xlsx task.csv
+ 1781  sudo apt install xlsx2csv
+ 1782  xlsx2csv TastList.xlsx task.csv
+ 1783  xlsx2csv TaskList.xlsx task.csv
+ 1784  ./commit.sh 1000 "Added new feature"
+ 1785  history
+ 1786  git push origin matala_git
+ 1787  git remote add origin https://github.com/KarinCohen201/Exc2Linux.git
+ 1788  git branch -M main
+ 1789  git push -u origin main
+ 1790  mkdir LINUX_Course_Project
+ 1791  cd LINUX_Course_Project
+ 1792  code .
+ 1793  mkdir DOWNLOADS
+ 1794  mkdir CODE
+ 1795  mkdir DATA
+ 1796  mkdir BACKUPS
+ 1797  mkdir Work
+ 1798  cd Work
+ 1799  mkdir Q1
+ 1800  mkdir Q2
+ 1801  mkdir Q3
+ 1802  mkdir Q4
+ 1803  cd ..
+ 1804  git init
+ 1805  git add .
+ 1806  git commit -m "Initial commit"
+ 1807  git remote add origin <repository-url>
+ 1808  git branch -M main
+ 1809  git push -u origin main
+ 1810  wget https://github.com/Telhai-Git/LINUX_COURSE_WORK/archive/refs/tags/downloads.tar.gz
+ 1811  tar -xzvf DOWNLOADS/downloads.tar.gz -C DOWNLOADS
+ 1812  tar -xvzf downloads.tar.gz -C 
+ 1813  DOWNLOADS
+ 1814  ls -l
+ 1815  ls DOWNLOAD
+ 1816  ls DOWNLOADS
+ 1817  tar -xzvf downloads.tar.gz
+ 1818  git init
+ 1819  git add .
+ 1820  git commit -m "Initial commit"
+ 1821  gls
+ 1822  ls
+ 1823  ls -a
+ 1824  git status
+ 1825  cd DOWNLOADS
+ 1826  tar -xzvf downloads.tar.gz
+ 1827  mv downloads.tar.gz DOWNLOADS/
+ 1828  tar -xzvf DOWNLOADS/downloads.tar.gz -C DOWNLOADS
+ 1829  mv downloads.tar.gz DOWNLOADS/
+ 1830  tar -xzvf DOWNLOADS/downloads.tar.gz -C DOWNLOADS
+ 1831  git add .
+ 1832  git commit -m "Added extracted files from downloads.tar.gz"
+ 1833  rm DOWNLOADS/downloads.tar.gz
+ 1834  git branch BR_Q1
+ 1835  git checkout BR_Q1
+ 1836  git branch
+ 1837  cp -r DOWNLOADS/* CODE/
+ 1838  ls CODE
+ 1839  cp DOWNLOADS/*.{txt,csv,jpg} DATA/ 2>/dev/null
+ 1840  ls -l DOWNLOADS/
+ 1841  cp DOWNLOADS/LINUX_COURSE_WORK-downloads/*.{txt,csv,jpg} DATA/ 2>/dev/null
+ 1842  touch Work/Q1/q1_output.txt
+ 1843  {   echo "Time : $(date)"  ;    echo "USER DETAILS : $(grep "^$(whoami):" /etc/passwd)";    echo "REPO : $(pwd)";    echo "GithubUrl : https://github.com/your-username/PROJECT_COURSE_LINUX";    echo "VERSIONID : $(grep '^VERSION_ID=' /etc/os-release | cut -d '=' -f2)";    echo "--------------------------------------------";    echo "Installing 'tree' package...";   sudo apt-get install -y tree  # התקנת tree אם הוא לא קיים
+ 1844    echo "Repository Folder Structure:";   tree .;    echo "--------------------------------------------";    echo "List of all .sh files under user folder recursively:";   find ~ -type f -name "*.sh"; } > Work/Q1/q1_output.txt
+ 1845  cd ~/LINUX_COURSE_PROJECT
+ 1846  {   echo "Time : $(date)"  ;    echo "USER DETAILS : $(grep "^$(whoami):" /etc/passwd)";    echo "REPO : $(pwd)";    echo "GithubUrl : https://github.com/your-username/PROJECT_COURSE_LINUX";    echo "VERSIONID : $(grep '^VERSION_ID=' /etc/os-release | cut -d '=' -f2)";    echo "--------------------------------------------";    echo "Installing 'tree' package...";   sudo apt-get install -y tree  # התקנת tree אם לא קיים
+ 1847    echo "Repository Folder Structure:";   tree .;    echo "--------------------------------------------";    echo "List of all .sh files under user folder recursively:";   find ~ -type f -name "*.sh"; } > Work/Q1/q1_output.txt
+ 1848  {   echo "Time : $(date)"  ;    echo "USER DETAILS : $(grep "^$(whoami):" /etc/passwd)";    echo "REPO : $(pwd)";    echo "GithubUrl : https://github.com/your-username/PROJECT_COURSE_LINUX";    echo "VERSIONID : $(grep '^VERSION_ID=' /etc/os-release | cut -d '=' -f2)";    echo "--------------------------------------------";    echo "Installing 'tree' package...";   sudo apt-get install -y tree  # התקנת tree אם לא קיים
+ 1849    echo "Repository Folder Structure:";   tree .;    echo "--------------------------------------------";    echo "List of all .sh files under user folder recursively:";   find ~ -type f -name "*.sh"; } > Work/Q1/q1_output.txt
+ 1850  git log
+ 1851  git checkout -b karin-branch
+ 1852  git checkout main
+ 1853  git checkout -b main
+ 1854  git checkout main
+ 1855  git checkout karin-branch
+ 1856  git pull origin main
+ 1857  git status
+ 1858  git add .
+ 1859  git status
+ 1860  git commit -m "my first commit karin"
+ 1861  git status
+ 1862  python DOWNLOADS/LINUX_COURSE_WORK-downloads/plant.py --plant "Rose" --height 50 55 60 65 70 --leaf_count 35 40 45 50 55 --dry_weight 2.0 2.2 2.5 2.7 3.0
+ 1863  python3 --version
+ 1864  python3 DOWNLOADS/LINUX_COURSE_WORK-downloads/plant.py --plant "Rose" --height 50 55 60 65 70 --leaf_count 35 40 45 50 55 --dry_weight 2.0 2.2 2.5 2.7 3.0
+ 1865  pip3 install -r requirements.txt
+ 1866  pip3 install matplotlib
+ 1867  sudo apt update
+ 1868  sudo apt install python3-pip
+ 1869  sudo apt update
+ 1870  sudo apt install python3-pip
+ 1871  pip3 install matplotlib
+ 1872  pip3 install --break-system-packages matplotlib
+ 1873  python3 DOWNLOADS/LINUX_COURSE_WORK-downloads/plant.py --plant "Rose" --height 50 55 60 65 70 --leaf_count 35 40 45 50 55 --dry_weight 2.0 2.2 2.5 2.7 3.0
+ 1874  git checkout -b BR_Q3
+ 1875  git checkout -b BR_CSV
+ 1876  git status
+ 1877  touch menu.sh
+ 1878  chmod +x menu.sh 
+ 1879  nano menu.sh
+ 1880  . menu.sh
+ 1881  ./menu.sh
+ 1882  rm כfirstFile
+ 1883  ./menu.sh
+ 1884  6
+ 1885  ./menu.sh
+ 1886  4
+ 1887  ./menu.sh
+ 1888  git status
+ 1889  git add .
+ 1890  git commit
+ 1891  git commit -m "Completed Part 3: Bash menu implementation finished."
+ 1892  git push origin BR_CSV
+ 1893  git remote set-url origin https://<token>e@github.com/TamarSapir/LINUX_Course_Project.git
+ 1894  git remote -v
+ 1895  git push origin BR_CSV
+ 1896  history > history.log
+ 1897  ./menu.sh
+ 1898  2
+ 1899  ./menu.sh
+ 1900  history > history.log

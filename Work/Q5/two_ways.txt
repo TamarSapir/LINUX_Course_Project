@@ -1,0 +1,14 @@
+Methods to transfer the diagrams and history file to WSL HOST:
+
+1. Direct copy from Docker using the docker cp command:
+This is the quickest and easiest way to copy files from the Docker container to the WSL HOST file system.
+The docker cp command allows you to copy files located inside the container directly to the Q5 folder on your Windows file system.
+How it works: You simply specify the container name and the file path inside the container, along with the destination path on the Windows system. 
+This method is very efficient because it copies the files directly from the container to the specified location without needing to manually navigate through the file system.
+Example: If you have a file named reversed_combined.png inside your container, you can copy it directly to your Q5 folder in Windows using this command: docker cp q5_python_runner:/reversed_combined.png /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/
+
+2. Manual copy through the Windows file system:
+If you prefer not to use Docker, you can manually copy the files from the WSL location (the Linux file system inside Windows) into your Q5 folder on the Windows file system.
+How it works: This method involves accessing the WSL file system through Windows Explorer. 
+You will need to navigate to the specific location where the files are stored within WSL (for example, within /mnt/c/Users/User/linuxPrj/LINUX_Course_Project/Work/Q5/). Once you're there, you can copy the necessary files (like the history log or the diagrams) and paste them into the Q5 folder in your Windows system.
+This method can be more user-friendly for those who prefer to work with graphical interfaces and don't want to use command-line tools like docker cp.
