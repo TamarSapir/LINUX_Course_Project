@@ -15,14 +15,14 @@ while true; do
     echo "0) Exit"
 
     read -p "Enter your choice: " choice
-
+#create new csv that the user want
     create_csv() {
         read -p "Enter new CSV filename: " filename
         echo "Plant,Hieght,Leaf Count,Dry Weight"> "$filename" #empty csv file
         selected_file="$filename"
         echo "Created file: $selected_file and set as current file."
     }
-
+#choose one csv to work with
     choose_csv() {
         while true; do
             read -p "Enter existing CSV filename (searching in project): " filename
@@ -45,12 +45,13 @@ while true; do
         fi
         return 0
     }
-
+#view the csv that the user choose
     view_csv() {
         validate_file_selected || return
         cat "$selected_file"
     }
 
+#add plant to the csv
     add_plant() {
         validate_file_selected || return
 
@@ -63,6 +64,7 @@ while true; do
         echo "Added row to $selected_file"
     }
 
+#run the new plant.py file 
 run_python() {
     validate_file_selected || return
 
@@ -88,6 +90,7 @@ run_python() {
 }
 
 
+#update data of one plant that the user choose
     update_plant() {
         validate_file_selected || return
 
@@ -118,6 +121,7 @@ run_python() {
         echo "Row updated successfully."
     }
 
+#delete one plant from the csv
     delete_plant() {
         validate_file_selected || return
 
@@ -133,6 +137,7 @@ run_python() {
         done
     }
 
+#finding the max of the leaf
     max_leaf_count() {
         validate_file_selected || return
 
@@ -145,6 +150,7 @@ run_python() {
         fi
     }
 
+#the menu himself when we run the file we will see it
     case $choice in
         1) create_csv ;;
         2) choose_csv ;;
