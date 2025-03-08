@@ -10,16 +10,16 @@ LOG_LEVEL="info"
 
 #find requirment.txt
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PYTHON_SCRIPT="$SCRIPT_DIR/requirements.txt"
+PYTHON_SCRIPT="$SCRIPT_DIR/plant.py"
 if [[ ! -f "$PYTHON_SCRIPT" ]]; then
-    PYTHON_SCRIPT="/root/LINUX_Course_Project/requirements.txt"
+    PYTHON_SCRIPT="/root/LINUX_Course_Project/Work/Q2/plant.py"
 fi
 if [[ ! -f "$PYTHON_SCRIPT" ]]; then
-    echo "Error: Could not find requirements.txt in script directory or project root!" | tee -a "$ERROR_LOG_FILE"
+    echo "Error: Could not find plant.py in Work/Q2!" | tee -a "$ERROR_LOG_FILE"
     exit 1
 fi
 
-echo "Using requirements file: $PYTHON_SCRIPT" | tee -a "$LOG_FILE"
+echo "Using plant.py file: $PYTHON_SCRIPT" | tee -a "$LOG_FILE"
 
 #go throw the data we got from the user
 while [[ $# -gt 0 ]]; do
@@ -63,6 +63,16 @@ if [[ $? -ne 0 ]]; then
     exit 1
 fi
 echo "Virtual environment activated." | tee -a "$LOG_FILE"
+
+#dependencies from requirments.txt
+echo "Installing dependencies from requirements.txt..." | tee -a "$LOG_FILE"
+pip install --upgrade pip 2>>"$ERROR_LOG_FILE"
+pip install -r ~/LINUX_Course_Project/requirements.txt 2>>"$ERROR_LOG_FILE"
+if [[ $? -ne 0 ]]; then
+    echo "Error: Failed to install dependencies!" | tee -a "$ERROR_LOG_FILE"
+    exit 1
+fi
+echo "Dependencies installed successfully." | tee -a "$LOG_FILE"
 
 # run code for every line in csv
 rm -rf "$OUTPUT_DIR"

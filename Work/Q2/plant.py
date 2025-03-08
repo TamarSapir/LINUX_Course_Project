@@ -50,4 +50,8 @@ def main():
     plot_plant_data(args.plant, args.height, args.leaf_count, args.dry_weight)
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     main()
+=======
+    main()
+>>>>>>> BR_Q4
