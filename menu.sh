@@ -76,8 +76,7 @@ run_python() {
             leaf_counts=$(echo "$plant_data" | cut -d',' -f3 | tr -d '"')
             dry_weights=$(echo "$plant_data" | cut -d',' -f4 | tr -d '"')
 
-            # save in requirements.txt
-            echo "--plant $plant --height $heights --leaf_count $leaf_counts --dry_weight $dry_weights" > requirements.txt
+            python3 Work/Q2/plant.py --plant "$plant" --height $heights --leaf_count $leaf_counts --dry_weight $dry_weights
 
             echo "Parameters saved to requirements.txt:"
             cat requirements.txt

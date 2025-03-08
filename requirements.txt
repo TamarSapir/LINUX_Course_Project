@@ -1,1 +1,2 @@
---plant Rose --height 50 55 60 65 70 --leaf_count 35 40 45 50 55 --dry_weight 2.0 2.2 2.5 2.7 3.0
+matplotlib
+argparse
