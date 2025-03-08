@@ -1,9 +1,10 @@
-Using requirements file: /root/LINUX_Course_Project/requirements.txt
-Using requirements file: /root/LINUX_Course_Project/requirements.txt
-Using requirements file: /root/LINUX_Course_Project/requirements.txt
+Using plant.py file: /root/LINUX_Course_Project/Work/Q2/plant.py
 ======== Starting CSV Processing ========
 Using CSV file: /root/LINUX_Course_Project/DOWNLOADS/LINUX_COURSE_WORK-downloads/plants.csv
+Creating virtual environment at ../venv
 Virtual environment activated.
+Installing dependencies from requirements.txt...
+Dependencies installed successfully.
 Processing plant: Rose
 Generated plots for Rose:
 Scatter plot saved as Rose_scatter.png
